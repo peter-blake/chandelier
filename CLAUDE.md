@@ -102,6 +102,21 @@ PORT                      # default 3000
 ```
 If any of these are missing at startup, the server must throw and exit — not silently degrade.
 
+### 13. Project Tracker — Always Current
+
+`PROJECT.md` is the single source of truth for build status. At the end of any session where code is written, fixed, or decisions are made:
+
+- Update task checkboxes to reflect what was completed (check off done items, add new items)
+- Move completed phases to ✅, active phases to ⏳
+- Add any architectural decisions to the Decision Log with date and rationale
+- Update the "Last updated" date at the top
+- Add new open issues, or remove issues that were resolved
+- Keep the Parking Lot current — things deprioritised should land there, not be deleted
+
+`PROJECT.md` must always reflect the actual current state of the codebase. Never leave it stale after a working session.
+
+---
+
 ### 12. State Machine Logging
 Every paid request is a state machine. Log transitions to stdout:
 ```json
