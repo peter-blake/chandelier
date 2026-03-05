@@ -3,7 +3,7 @@
 > Single source of truth for build status. Updated at the end of every working session.
 > See `CLAUDE.md` Law #13 for update rules.
 
-**Last updated:** 2026-03-05
+**Last updated:** 2026-03-05 (session 2)
 **Current phase:** Phase 1 complete — Phase 2 next
 **Repo:** https://github.com/peter-blake/chandelier
 **Network:** Base Sepolia (testnet)
@@ -74,7 +74,7 @@
 
 ## Open Issues
 
-None.
+- `top_up_url` in 402 body points to `https://chandelier.dev/top-up` — placeholder until landing page exists
 
 ---
 
@@ -89,3 +89,4 @@ None.
 | 2026-03-05 | x402 mounted at app root, not `/v1` | Middleware mounted under a path prefix has that prefix stripped — mounting at root lets route keys use full versioned paths (`POST /v1/company-intelligence`) consistent with API versioning convention |
 | 2026-03-05 | `ExactEvmScheme` + `x402ResourceServer` + `HTTPFacilitatorClient` | Actual `@x402/express` API differs significantly from original ARCHITECTURE.md doc — updated to match real package (requires `@x402/evm` as separate install) |
 | 2026-03-05 | Law #4 reframed as "Guarantee Delivery, Not Refunds" | x402 settles payment before pipeline runs — no refund mechanism exists. Correct commitment is aggressive retry before failure, not charge reversal |
+| 2026-03-05 | `unpaidResponseBody` callback per route in x402 config | Enables per-Bulb 402 bodies with correct `amount_required` — scales cleanly when new Bulbs are added |
