@@ -15,7 +15,7 @@ interface LogEntry {
 }
 
 export function log(entry: Omit<LogEntry, 'ts'>): void {
-  const output: LogEntry = {
+  const output = {
     ...entry,
     ts: new Date().toISOString(),
   }

@@ -23,9 +23,11 @@ app.get('/health', (_req: Request, res: Response) => {
 
 app.use('/manifest', manifestRouter)
 
-// Paid routes: idempotency MUST come before x402 (prevents double-charging on retries)
+// Paid routes: idempotency MUST come before x402 (prevents double-charging on retries).
+// x402 is mounted at app root (not /v1) so it sees full paths — enabling explicit versioned
+// route keys like 'POST /v1/company-intelligence' in the config.
 app.use('/v1', idempotencyMiddleware)
-app.use('/v1', createPaymentMiddleware())
+app.use(createPaymentMiddleware())
 app.use('/v1', bulbRouter)
 
 app.listen(PORT, () => {
