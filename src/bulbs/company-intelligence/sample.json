@@ -1,0 +1,28 @@
+{
+  "company": "Stripe",
+  "summary": "Stripe remains privately held and continues expanding its financial infrastructure suite, with recent focus on stablecoin payments and AI-native billing tools. The company reportedly surpassed $3B ARR and has shown no signs of an imminent IPO.",
+  "recent_news": [
+    {
+      "headline": "Stripe launches stablecoin payment rails for emerging markets",
+      "date": "2026-01-15",
+      "source": "TechCrunch",
+      "significance": "Signals direct competition with x402 and crypto-native payment infrastructure"
+    }
+  ],
+  "hiring_signals": {
+    "is_hiring": true,
+    "growth_areas": ["AI infrastructure", "Stablecoin products", "Enterprise sales"],
+    "signal_strength": "strong"
+  },
+  "leadership_changes": [],
+  "funding_status": {
+    "last_known_round": "Series I — $600M (2023)",
+    "estimated_stage": "series-c+",
+    "signals": ["No IPO announced", "Revenue reportedly $3B+ ARR"]
+  },
+  "confidence_score": 0.82,
+  "data_freshness": {
+    "oldest_source_days": 45,
+    "newest_source_days": 3
+  }
+}
