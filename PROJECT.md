@@ -3,7 +3,7 @@
 > Single source of truth for build status. Updated at the end of every working session.
 > See `CLAUDE.md` Law #13 for update rules.
 
-**Last updated:** 2026-03-05 (session 2)
+**Last updated:** 2026-03-05 (session 3)
 **Current phase:** Phase 1 complete — Phase 2 next
 **Repo:** https://github.com/peter-blake/chandelier
 **Network:** Base Sepolia (testnet)
@@ -37,7 +37,18 @@
 
 ---
 
-## Phase 2 — MCP + Discovery ⏳ Up Next
+## Stealth Hardening ⏳ In Progress
+
+- [x] Fix 402 response body (Law #7 — top_up_url, amount_required, currency, network)
+- [x] E2E payment test — full x402 flow validated on Base Sepolia testnet (`scripts/test-payment.ts`)
+- [ ] Claude latency investigation (19s observed — target <10s)
+- [ ] Build Bulb 2 — Outbound Personalization
+- [ ] Deploy to stable HTTPS URL (Render / Railway)
+- [ ] Mainnet smoke test
+
+---
+
+## Phase 2 — MCP + Discovery 🔲 After Stealth Hardening
 
 - [ ] MCP server entry point (`mcp-server/index.ts`)
 - [ ] MCP tool definition for `company-intelligence` (`mcp-server/tools/company-intelligence.ts`)
@@ -90,3 +101,5 @@
 | 2026-03-05 | `ExactEvmScheme` + `x402ResourceServer` + `HTTPFacilitatorClient` | Actual `@x402/express` API differs significantly from original ARCHITECTURE.md doc — updated to match real package (requires `@x402/evm` as separate install) |
 | 2026-03-05 | Law #4 reframed as "Guarantee Delivery, Not Refunds" | x402 settles payment before pipeline runs — no refund mechanism exists. Correct commitment is aggressive retry before failure, not charge reversal |
 | 2026-03-05 | `unpaidResponseBody` callback per route in x402 config | Enables per-Bulb 402 bodies with correct `amount_required` — scales cleanly when new Bulbs are added |
+| 2026-03-05 | `Object.assign(walletClient, { address: account.address })` for ClientEvmSigner | viem exposes address at `account.address` not top-level; x402 ClientEvmSigner requires it at top level |
+| 2026-03-05 | E2E test confirmed on Base Sepolia | Full payment flow validated: 402 → sign → 200 + intelligence. $0.25 USDC transferred on-chain. Claude latency 19s flagged for investigation. |
