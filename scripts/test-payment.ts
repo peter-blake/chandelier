@@ -19,7 +19,7 @@ import 'dotenv/config'
 import { createWalletClient, http, publicActions, defineChain } from 'viem'
 import { privateKeyToAccount } from 'viem/accounts'
 import { x402Client, x402HTTPClient } from '@x402/core/client'
-import { registerExactEvmScheme } from '@x402/evm/exact/client/register'
+import { registerExactEvmScheme } from '@x402/evm/exact/client'
 
 const SERVER_URL = 'http://localhost:3000'
 const BULB_URL = `${SERVER_URL}/v1/company-intelligence`
@@ -34,23 +34,28 @@ const baseSepolia = defineChain({
 
 async function run() {
   // --- Wallet setup ---
-  const privateKey = process.env['TEST_WALLET_PRIVATE_KEY']
-  if (!privateKey) {
+  const rawKey = process.env['TEST_WALLET_PRIVATE_KEY']
+  if (!rawKey) {
     throw new Error('TEST_WALLET_PRIVATE_KEY is not set')
   }
 
-  const account = privateKeyToAccount(privateKey as `0x${string}`)
+  // Normalise — MetaMask sometimes exports without the 0x prefix
+  const privateKey = (rawKey.startsWith('0x') ? rawKey : `0x${rawKey}`) as `0x${string}`
+  const account = privateKeyToAccount(privateKey)
   const walletClient = createWalletClient({
     account,
     chain: baseSepolia,
     transport: http(),
   }).extend(publicActions)
 
+  // ClientEvmSigner requires address at the top level — viem puts it at account.address
+  const signer = Object.assign(walletClient, { address: account.address })
+
   console.log(`\nTest wallet: ${account.address}`)
 
   // --- x402 client setup ---
   const client = new x402Client()
-  registerExactEvmScheme(client, { signer: walletClient })
+  registerExactEvmScheme(client, { signer })
   const httpClient = new x402HTTPClient(client)
 
   // --- Step 1: Hit endpoint without payment (expect 402) ---
@@ -98,6 +103,8 @@ async function run() {
 
   if (!paidResponse.ok) {
     const err = await paidResponse.text()
+    console.log('    Response headers:')
+    paidResponse.headers.forEach((v, k) => console.log(`      ${k}: ${v}`))
     throw new Error(`Payment failed — ${paidResponse.status}: ${err}`)
   }
 
